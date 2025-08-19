@@ -3,12 +3,12 @@
 **Version**: 1.1
 **Responsable**: IT Manager  
 **Équipe concernée**: Techniciens terrain, Administrateurs Cloud  
-**Dernière mise à jour**: 2025-08-06  
+**Dernière mise à jour**: 2025-08-19  
 **Statut**: ✅ Maintenu
 
 ## 🎯 Objectif
 
-Cette procédure détaille les étapes à suivre pour effectuer la sauvegarde d'une base de données avec SqlBak
+Cette procédure détaille les étapes à suivre pour effectuer la sauvegarde d'une base de données avec SqlBak. Elle est automatiquement stockée dans un répertoire Dropbox
 
 ## 🗺️ Vue d’ensemble du processus
 
