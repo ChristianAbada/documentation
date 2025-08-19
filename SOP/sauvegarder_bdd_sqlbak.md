@@ -18,10 +18,10 @@ Cette procédure détaille les étapes à suivre pour effectuer la sauvegarde d'
 
 ## 🛠️ Prérequis & Accès
 
-- ✅ Accès administrateur au serveur local de l’agence
+- ✅ Accès administrateur au serveur local de l’agence.
 - ✅ Accès Dropbox MITS : `Dropbox\MITS\Admin\Cloud Credentials`
-- ✅ Droits d’administration SQL Server sur le serveur Cloud
-- ✅ Convention de nommage MITS appliquée aux fichiers
+- ✅ Droits d’administration SQL Server sur le serveur Cloud.
+- ✅ Convention de nommage MITS appliquée aux fichiers.
 
 ## 🧩 Procédure détaillée
 

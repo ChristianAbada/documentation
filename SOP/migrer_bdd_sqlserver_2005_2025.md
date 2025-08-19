@@ -18,9 +18,9 @@ Documenter l’ensemble des étapes nécessaires pour migrer une base de donnée
 
 ## 🛠️ Prérequis & Accès
 
-- ✅ Accès administrateur au serveur SQL Server 2005 
+- ✅ Accès administrateur au serveur SQL Server 2005.
 - ✅ Accès Dropbox MITS : `Dropbox\MITS\Admin\Cloud Credentials`
-- ✅ Droits d’administration sur le serveur SQL Server 2022
+- ✅ Droits d’administration sur le serveur SQL Server 2022.
 - ✅ Suivi de la procédure standard “Guide d'utilisation de SqlBak”
 
 ## 🧩 Procédure détaillée
