@@ -19,4 +19,4 @@ jobs:
         with:
           access_token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
           source_folder: 'documentation'
-          destination_folder: 'gitdocs'
+          destination_folder: '/gitdocs'
