@@ -1,0 +1,22 @@
+name: Sync documentation to Dropbox
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'documentation/**'
+
+jobs:
+  sync_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Sync documentation
+        uses: dandydev/dropbox-sync@v1.0.0
+        with:
+          access_token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          source_folder: 'documentation'
+          destination_folder: 'gitdocs'
