@@ -3,7 +3,7 @@
 **Version**: 1.1.2  
 **Responsable**: IT Manager  
 **Équipe concernée**: Techniciens terrain, Administrateurs Cloud  
-**Dernière mise à jour**: 2025-08-19  
+**Dernière mise à jour**: 2025-08-20  
 **Statut**: ✅ Maintenu
 
 ## 🎯 Objectif
@@ -38,7 +38,7 @@ Pour cette étape, bien vouloir vous référer à la procédure pour [Editer un 
 
 ![📸 Capture – Détacher une bdd SQL Server 2005](../Images/migrationsqlserver0525/Detacher_bdd_sqlserver_2005.png)
 
-### 3.	Attacher la base de données à l’instance Sql Server 2022
+### 3. Attacher la base de données à l’instance Sql Server 2022
 
 -	Ouvrir SSMS 2022.
 -	Faire un **clic-droit** sur **Databases ➜ Attach…**
@@ -65,3 +65,5 @@ Pour cette étape, bien vouloir vous référer à la procédure pour [Editer un 
 | BDD attachée dans Sql Server 2022 |             |             |
 | Les fichiers `.mdf` et `.ldf` sont copiés sur le nouveau serveur |             |             |
 | Logins vérifiés. Les comptes SQL Server ont été transférés |             |             |
+
+---
