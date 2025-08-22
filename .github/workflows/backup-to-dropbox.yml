@@ -1,0 +1,24 @@
+name: Backup to Dropbox
+
+on:
+  push:
+    branches: [main]  # Déclencheur sur push vers la branche "main"
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout le code
+        uses: actions/checkout@v4
+
+      - name: Téléverser vers Dropbox
+        uses: joffrey-bion/dropbox-upload-action@v1
+        with:
+          # Token Dropbox (secret)
+          access_token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          # Chemin local des fichiers à sauvegarder (racine du repo)
+          local_path: .
+          # Chemin cible dans Dropbox (remplacez par votre dossier)
+          dropbox_path: /gitdocs
+          # Écrase les fichiers existants si modifiés
+          overwrite: true
