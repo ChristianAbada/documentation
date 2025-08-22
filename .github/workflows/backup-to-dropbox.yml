@@ -16,16 +16,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Sync SOP folder to Dropbox
-        uses: dandydev/dropbox-sync@v1.0.0
+      - name: Sync to Dropbox
+        uses: gautamkrishnar/upload-to-dropbox-action@v1
         with:
-          access_token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
-          source_folder: 'SOP'
-          destination_folder: '/gitdocs/SOP'
-
-      - name: Sync Images folder to Dropbox
-        uses: dandydev/dropbox-sync@v1.0.0
-        with:
-          access_token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
-          source_folder: 'Images'
-          destination_folder: '/gitdocs/Images'
+          oauth_token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          upload_path: '/gitdocs/'
+          local_path: '.'
