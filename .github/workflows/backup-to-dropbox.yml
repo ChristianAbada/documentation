@@ -1,4 +1,4 @@
-name: Backup Documentation to Dropbox
+name: Backup SOP and Images to Dropbox
 
 on:
   push:
@@ -15,10 +15,39 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Sync to Dropbox
-        uses: andrejs-ps/upload-file-to-dropbox-action@v1.0.0
         with:
-          token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
-          local_path: '.'
-          remote_path: '/gitdocs/'
+          fetch-depth: 0
+
+      - name: Install Rclone
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+
+      - name: Configure Rclone with Dropbox
+        run: |
+          mkdir -p ~/.config/rclone
+          echo "[dropbox]" > ~/.config/rclone/rclone.conf
+          echo "type = dropbox" >> ~/.config/rclone/rclone.conf
+          echo "token = ${{ secrets.DROPBOX_ACCESS_TOKEN }}" >> ~/.config/rclone/rclone.conf
+
+      - name: Sync SOP and Images folders to Dropbox
+        run: |
+          # Synchroniser le dossier SOP
+          if [ -d "SOP" ]; then
+            rclone copy --progress --transfers 10 SOP/ dropbox:"/gitdocs/SOP/"
+            echo "Synchronisation du dossier SOP terminée"
+          else
+            echo "Le dossier SOP n'existe pas"
+          fi
+
+          # Synchroniser le dossier Images
+          if [ -d "Images" ]; then
+            rclone copy --progress --transfers 10 Images/ dropbox:"/gitdocs/Images/"
+            echo "Synchronisation du dossier Images terminée"
+          else
+            echo "Le dossier Images n'existe pas"
+          fi
+
+      - name: Verify uploaded content
+        run: |
+          echo "Contenu du dossier gitdocs dans Dropbox:"
+          rclone ls dropbox:/gitdocs --max-depth 2
