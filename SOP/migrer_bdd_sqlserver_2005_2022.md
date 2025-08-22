@@ -1,6 +1,6 @@
 # ☁️ SOP – Migration d’une base de données de SQL Server 2005 vers SQL Server 2022
 
-**Version**: 1.1.3  
+**Version**: 1.1.1
 **Responsable**: IT Manager  
 **Équipe concernée**: Techniciens terrain, Administrateurs Cloud  
 **Dernière mise à jour**: 2025-08-20  
@@ -40,7 +40,7 @@ Pour cette étape, bien vouloir vous référer à la procédure pour [Editer un 
 
 ### 3. Attacher la base de données à l’instance Sql Server 2022
 
--	Ouvrir SSMS 2022.
+- Ouvrir SSMS 2022.
 -	Faire un **clic-droit** sur **Databases ➜ Attach…**
 -	Parcourir vers le fichier `.mdf` récupéré de **l’ancien serveur 2005**.
 -	Vérifier que le `.ldf` est bien trouvé ou le remapper si besoin.
