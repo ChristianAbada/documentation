@@ -1,24 +1,32 @@
-name: Backup to Dropbox
+name: Backup to Dropbox with Rclone
 
 on:
   push:
-    branches: [main]  # Déclencheur sur push vers la branche "main"
+    branches: [main, master]
 
 jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout le code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Téléverser vers Dropbox
-        uses: joffrey-bion/dropbox-upload-action@v1
-        with:
-          # Token Dropbox (secret)
-          access_token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
-          # Chemin local des fichiers à sauvegarder (racine du repo)
-          local_path: .
-          # Chemin cible dans Dropbox (remplacez par votre dossier)
-          dropbox_path: /gitdocs
-          # Écrase les fichiers existants si modifiés
-          overwrite: true
+      - name: Install Rclone
+        run: |
+          curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
+          unzip rclone-current-linux-amd64.zip
+          cd rclone-*-linux-amd64
+          sudo cp rclone /usr/bin/
+          sudo chown root:root /usr/bin/rclone
+          sudo chmod 755 /usr/bin/rclone
+
+      - name: Configure Rclone
+        run: |
+          mkdir -p ~/.config/rclone
+          echo "[dropbox]" > ~/.config/rclone/rclone.conf
+          echo "type = dropbox" >> ~/.config/rclone/rclone.conf
+          echo "token = ${{ secrets.DROPBOX_ACCESS_TOKEN }}" >> ~/.config/rclone/rclone.conf
+
+      - name: Sync to Dropbox
+        run: |
+          rclone copy --progress --exclude ".git/**" . dropbox:"/gitdocs"
