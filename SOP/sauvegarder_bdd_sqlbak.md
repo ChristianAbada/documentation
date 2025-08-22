@@ -3,7 +3,7 @@
 **Version**: 1.1
 **Responsable**: IT Manager  
 **Équipe concernée**: Techniciens terrain, Administrateurs Cloud  
-**Dernière mise à jour**: 2025-08-19  
+**Dernière mise à jour**: 2025-08-22 
 **Statut**: ✅ Maintenu
 
 ## 🎯 Objectif
