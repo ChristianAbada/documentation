@@ -6,7 +6,7 @@ on:
       - main
       - master
     # Ce filtre permet d'exécuter le workflow uniquement si des fichiers
-    # dans le dossier 'documentation' sont modifiés, ce qui est très efficace.
+    # dans le dossier 'documentation' sont modifiés, ce qui est very efficace.
     paths:
       - 'documentation/**'
 
