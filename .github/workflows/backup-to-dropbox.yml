@@ -1,8 +1,8 @@
-name: Backup Documentation to Dropbox
+name: Backup to Dropbox
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]  # Déclencheur sur push vers la branche "main"
 
 jobs:
   backup:
@@ -11,49 +11,14 @@ jobs:
       - name: Checkout documentation
         uses: actions/checkout@v4
 
-      - name: Upload to Dropbox
-        env:
-          DROPBOX_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
-        run: |
-          # Installation de Python et des dépendances
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip
-          pip3 install requests
-
-          # Script de sauvegarde
-          python3 - <<EOF
-          import os
-          import requests
-          from pathlib import Path
-
-          token = os.environ['DROPBOX_TOKEN']
-          base_path = "gitdocs/documentation"
-
-          headers = {
-              "Authorization": f"Bearer {token}",
-              "Content-Type": "application/octet-stream"
-          }
-
-          # Parcours de tous les fichiers
-          for file_path in Path('.').rglob('*'):
-              if file_path.is_file() and '.git' not in file_path.parts:
-                  dropbox_path = f"/{base_path}/{file_path}"
-                  
-                  with open(file_path, 'rb') as f:
-                      data = f.read()
-                  
-                  # Upload vers Dropbox
-                  response = requests.post(
-                      'https://content.dropboxapi.com/2/files/upload',
-                      headers={
-                          **headers,
-                          'Dropbox-API-Arg': f'{{"path": "{dropbox_path}", "mode": "overwrite"}}'
-                      },
-                      data=data
-                  )
-                  
-                  if response.status_code == 200:
-                      print(f"✓ {file_path}")
-                  else:
-                      print(f"✗ {file_path}: {response.text}")
-          EOF
+      - name: Téléverser vers Dropbox
+        uses: joffrey-bion/dropbox-upload-action@v1
+        with:
+          # Token Dropbox (secret)
+          access_token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          # Chemin local des fichiers à sauvegarder (racine du repo)
+          local_path: .
+          # Chemin cible dans Dropbox (remplacez par votre dossier)
+          dropbox_path: /gitdocs
+          # Écrase les fichiers existants si modifiés
+          overwrite: true
