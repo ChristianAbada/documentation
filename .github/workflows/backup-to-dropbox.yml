@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Sync to Dropbox
-        uses: dropbox-actions/upload-to-dropbox@v1
+        uses: dropbox-actions/upload-to-dropbox-action@v1
         with:
           oauth_token: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
           upload_path: '/gitdocs/'
