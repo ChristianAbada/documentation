@@ -3,54 +3,57 @@ name: Backup Documentation to Dropbox
 on:
   push:
     branches: [main, master]
-  workflow_dispatch:  # Permet de déclencher manuellement
 
 jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout documentation repository
+      - name: Checkout documentation
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Install Rclone
+      - name: Upload to Dropbox
+        env:
+          DROPBOX_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
         run: |
-          # Installation de Rclone
-          curl -s https://rclone.org/install.sh | sudo bash >/dev/null 2>&1
-          echo "Rclone version:"
-          rclone version
+          # Installation de Python et des dépendances
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+          pip3 install requests
 
-      - name: Configure Rclone for Dropbox
-        run: |
-          # Configuration sécurisée de Rclone
-          mkdir -p ~/.config/rclone
-          cat > ~/.config/rclone/rclone.conf << EOF
-          [dropbox]
-          type = dropbox
-          token = ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          # Script de sauvegarde
+          python3 - <<EOF
+          import os
+          import requests
+          from pathlib import Path
+
+          token = os.environ['DROPBOX_TOKEN']
+          base_path = "gitdocs/documentation"
+
+          headers = {
+              "Authorization": f"Bearer {token}",
+              "Content-Type": "application/octet-stream"
+          }
+
+          # Parcours de tous les fichiers
+          for file_path in Path('.').rglob('*'):
+              if file_path.is_file() and '.git' not in file_path.parts:
+                  dropbox_path = f"/{base_path}/{file_path}"
+                  
+                  with open(file_path, 'rb') as f:
+                      data = f.read()
+                  
+                  # Upload vers Dropbox
+                  response = requests.post(
+                      'https://content.dropboxapi.com/2/files/upload',
+                      headers={
+                          **headers,
+                          'Dropbox-API-Arg': f'{{"path": "{dropbox_path}", "mode": "overwrite"}}'
+                      },
+                      data=data
+                  )
+                  
+                  if response.status_code == 200:
+                      print(f"✓ {file_path}")
+                  else:
+                      print(f"✗ {file_path}: {response.text}")
           EOF
-          
-          echo "Configuration Rclone créée avec succès"
-
-      - name: Create gitdocs directory if not exists
-        run: |
-          # Création du dossier gitdocs s'il n'existe pas
-          rclone mkdir dropbox:gitdocs || echo "Le dossier existe peut-être déjà"
-
-      - name: Sync documentation to gitdocs
-        run: |
-          # Synchronisation du repository documentation vers gitdocs
-          rclone copy --progress \
-            --exclude ".git/**" \
-            --exclude ".github/**" \
-            --transfers 4 \
-            . dropbox:gitdocs/documentation/
-          
-          echo "Synchronisation terminée avec le code: $?"
-
-      - name: Verify documentation in Dropbox
-        run: |
-          # Vérification du contenu dans Dropbox
-          echo "Contenu du dossier gitdocs/documentation dans Dropbox:"
-          rclone ls dropbox:gitdocs/documentation --max-depth 2
