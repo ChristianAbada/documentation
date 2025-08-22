@@ -1,32 +1,56 @@
-name: Backup to Dropbox with Rclone
+name: Backup Documentation to Dropbox
 
 on:
   push:
     branches: [main, master]
+  workflow_dispatch:  # Permet de déclencher manuellement
 
 jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout documentation repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install Rclone
         run: |
-          curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
-          unzip rclone-current-linux-amd64.zip
-          cd rclone-*-linux-amd64
-          sudo cp rclone /usr/bin/
-          sudo chown root:root /usr/bin/rclone
-          sudo chmod 755 /usr/bin/rclone
+          # Installation de Rclone
+          curl -s https://rclone.org/install.sh | sudo bash >/dev/null 2>&1
+          echo "Rclone version:"
+          rclone version
 
-      - name: Configure Rclone
+      - name: Configure Rclone for Dropbox
         run: |
+          # Configuration sécurisée de Rclone
           mkdir -p ~/.config/rclone
-          echo "[dropbox]" > ~/.config/rclone/rclone.conf
-          echo "type = dropbox" >> ~/.config/rclone/rclone.conf
-          echo "token = ${{ secrets.DROPBOX_ACCESS_TOKEN }}" >> ~/.config/rclone/rclone.conf
+          cat > ~/.config/rclone/rclone.conf << EOF
+          [dropbox]
+          type = dropbox
+          token = ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          EOF
+          
+          echo "Configuration Rclone créée avec succès"
 
-      - name: Sync to Dropbox
+      - name: Create gitdocs directory if not exists
         run: |
-          rclone copy --progress --exclude ".git/**" . dropbox:"/gitdocs"
+          # Création du dossier gitdocs s'il n'existe pas
+          rclone mkdir dropbox:gitdocs || echo "Le dossier existe peut-être déjà"
+
+      - name: Sync documentation to gitdocs
+        run: |
+          # Synchronisation du repository documentation vers gitdocs
+          rclone copy --progress \
+            --exclude ".git/**" \
+            --exclude ".github/**" \
+            --transfers 4 \
+            . dropbox:gitdocs/documentation/
+          
+          echo "Synchronisation terminée avec le code: $?"
+
+      - name: Verify documentation in Dropbox
+        run: |
+          # Vérification du contenu dans Dropbox
+          echo "Contenu du dossier gitdocs/documentation dans Dropbox:"
+          rclone ls dropbox:gitdocs/documentation --max-depth 2
