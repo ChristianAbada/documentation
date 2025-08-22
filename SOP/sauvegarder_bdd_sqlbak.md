@@ -44,9 +44,9 @@ Cette procédure détaille les étapes à suivre pour effectuer la sauvegarde d'
    - **Full** : sauvegarde complète./
    - **Differential** : sauvegarde différentielle.
    - **Transaction Log** : sauvegarde du journal des transactions.
-4. Choisissez la destination (cloud, local, FTP, etc.).
-5. Définissez la planification (horaire, fréquence).
-6. Cliquez sur **Save & Run**.
+4. Choisir la destination (cloud, local, FTP, etc.).
+5. Définir la planification (horaire, fréquence).
+6. Cliquer sur **Save & Run**.
 
 ## Remarques
 
