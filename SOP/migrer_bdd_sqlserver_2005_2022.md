@@ -9,7 +9,7 @@
 ## 🎯 Objectif
 
 Documenter l’ensemble des étapes nécessaires pour migrer une base de données Bora de SQL Serveur 2005 vers SQL Server 2022, de façon sécurisée, standardisée et traçable.
-vvers SQL Server 2022, de façon sécurisée, standardisée et traçable.
+
 
 ## 🗺️ Vue d’ensemble du processus
 
