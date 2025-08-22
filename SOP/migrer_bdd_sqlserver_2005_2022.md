@@ -1,6 +1,6 @@
 # ☁️ SOP – Migration d’une base de données de SQL Server 2005 vers SQL Server 2022
 
-**Version**: 1.1.1
+**Version**: 1.1.2
 **Responsable**: IT Manager  
 **Équipe concernée**: Techniciens terrain, Administrateurs Cloud  
 **Dernière mise à jour**: 2025-08-20  
@@ -8,7 +8,6 @@
 
 ## 🎯 Objectif
 
-Documenter l’ensemble des étapes nécessaires pour migrer une base de données Bora de SQL Serveur 2005 vers SQL Server 2022, de façon sécurisée, standardisée et traçable.
 Documenter l’ensemble des étapes nécessaires pour migrer une base de données Bora de SQL Serveur 2005 vers SQL Server 2022, de façon sécurisée, standardisée et traçable.
 
 ## 🗺️ Vue d’ensemble du processus
@@ -37,7 +36,7 @@ Pour cette étape, bien vouloir vous référer à la procédure pour [Editer un 
 - Vérifier qu’aucune connexion active ne bloque la base (✅ **Cocher la case Drop Connections** si elle n'est pas cochée par défaut).
 - Cliquer sur **OK ➜**. La base est détachée, les fichiers `.mdf` et `.ldf` restent sur le disque.
 
-![📸 Capture – Détacher une bdd SQL Server 2005](../Images/migrationsqlserver0525/Detacher_bdd_sqlserver_2005.png)
+![📸 Capture – Détacher une bdd SQL Server 2005](../Images/migrationsqlserver0522/Detacher_bdd_sqlserver_2005.png)
 
 ### 3. Attacher la base de données à l’instance Sql Server 2022
 
@@ -47,7 +46,7 @@ Pour cette étape, bien vouloir vous référer à la procédure pour [Editer un 
 -	Vérifier que le `.ldf` est bien trouvé ou le remapper si besoin.
 -	Cliquer sur **OK**.
 
-![📸 Capture – Attacher une bdd dans SQL Server 2022](../Images/migrationsqlserver0525/Attacher_bdd_sqlserver_2025.png)
+![📸 Capture – Attacher une bdd dans SQL Server 2022](../Images/migrationsqlserver0522/Attacher_bdd_sqlserver_2022.png)
 
 ###	Remarques importantes
 
